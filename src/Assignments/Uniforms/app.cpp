@@ -26,7 +26,8 @@ void SimpleShapeApplication::init() {
             0.5f, 0.0f, 0.0f,
             0.0f, 0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f };
+            -0.5f, -0.5f, 0.0f 
+    };
 
     std::vector<GLushort> indices = {
         0, 1, 2,
@@ -53,9 +54,9 @@ void SimpleShapeApplication::init() {
     //---------------------------------------------------------------------------------
 
     glGenBuffers(1, &i_buffer_handle);
-    OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, i_buffer_handle));
-    glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     
 
@@ -66,21 +67,21 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
 
-
-    //---------------------------------------------------------------------------------
-    float strength = 0.5f;
-    float color[3] = { 1.0f, 0.0f, 0.0f }; // Red color
-    glBindBuffer(GL_UNIFORM_BUFFER, u_buffer_handle);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
-    glBufferSubData(GL_UNIFORM_BUFFER, 4, 3 * sizeof(float), color);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    //---------------------------------------------------------------------------------
-    
-    
     // This indicates that the data for attribute 0 should be read from a vertex buffer.
     glEnableVertexAttribArray(0);
     // and this specifies how the data is layout in the buffer.
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+
+    //---------------------------------------------------------------------------------
+    float strength = 0.8f;
+    float color[3] = { 1.0f, 0.0f, 0.0f }; // Red color
+    glBindBuffer(GL_UNIFORM_BUFFER, u_buffer_handle);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
+    glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(float), 3 * sizeof(float), color);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    //---------------------------------------------------------------------------------
+    
+
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);

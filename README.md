@@ -1,3 +1,12 @@
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/266b624b-1063-4e75-9aa1-a32c3f0d54f5)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/f101b852-b6c3-4220-ae29-4973e0523ad4)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/178048c9-5148-4aaa-a4d9-ac833ef74287)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/10d987d0-3bf6-4445-94c0-70e6dedc2993)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/ea07f8b8-c2bf-4ffe-a996-802a6da04911)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/2429ea15-0f6a-4b3f-84b4-d73979d5c6b7)
+
+
+
 # A 3D graphics programming project.
 
 This repository contains the "Hello World!" equivalent for OpenGL C++ programming.  This will be the starting point for your assignments. 

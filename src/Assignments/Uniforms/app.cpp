@@ -34,20 +34,30 @@ void SimpleShapeApplication::init() {
         0, 3, 4
     };
 
+
     // Generating the buffer and loading the vertex data into it.
-    GLuint v_buffer_handle, i_buffer_handle;
+    GLuint v_buffer_handle, i_buffer_handle, u_buffer_handle;
 
     glGenBuffers(1, &v_buffer_handle);
     OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle));
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    //---------------------------------------------------------------------------------
+    // Creating and binding the buffer for modifying pixel color
+    glGenBuffers(1, &u_buffer_handle);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_buffer_handle);
+    glBufferData(GL_UNIFORM_BUFFER, 8 * sizeof(GLfloat), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_buffer_handle);
+    //---------------------------------------------------------------------------------
+
     glGenBuffers(1, &i_buffer_handle);
     OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, i_buffer_handle));
     glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-
+    
 
     // This setups a Vertex Array Object (VAO) that  encapsulates
     // the state of all vertex buffers needed for rendering
@@ -56,6 +66,17 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
 
+
+    //---------------------------------------------------------------------------------
+    float strength = 0.5f;
+    float color[3] = { 1.0f, 0.0f, 0.0f }; // Red color
+    glBindBuffer(GL_UNIFORM_BUFFER, u_buffer_handle);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
+    glBufferSubData(GL_UNIFORM_BUFFER, 4, 3 * sizeof(float), color);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    //---------------------------------------------------------------------------------
+    
+    
     // This indicates that the data for attribute 0 should be read from a vertex buffer.
     glEnableVertexAttribArray(0);
     // and this specifies how the data is layout in the buffer.
@@ -64,23 +85,6 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     //end of vao "recording"
-
-//---------------------------------------------------------------------------------
-    // Creating and binding the buffer for modifying pixel color
-    GLuint uboHandle;
-    glGenBuffers(1, &uboHandle);
-    glBindBuffer(GL_UNIFORM_BUFFER, uboHandle);
-    glBufferData(GL_UNIFORM_BUFFER, 8 * sizeof(float), nullptr, GL_STATIC_DRAW);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, uboHandle);
-    //---------------------------------------------------------------------------------
-
-    //---------------------------------------------------------------------------------
-    //Loading data into the buffer respecting std140 layout rules
-    float strength = 0.5f;
-    float color[3] = { 1.0f, 0.0f, 0.0f }; // Red color
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
-    glBufferSubData(GL_UNIFORM_BUFFER, 4, 3 * sizeof(float), color);
-    //---------------------------------------------------------------------------------
 
     // Setting the background color of the rendering window,
     // I suggest not to use white or black for better debuging.

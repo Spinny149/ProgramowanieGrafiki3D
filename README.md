@@ -1,3 +1,35 @@
+# SUMMARY
+
+Uniforms
+------------------------------------------------------------------------------------------------------------------
+
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/e838abe6-7377-4372-8ba8-2931704576e5)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/98bd61cd-c323-48ca-b85e-863e068464c2)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/cc270750-6b5f-4040-8e4e-bc937de6b510)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/3645e38b-8560-4dac-9ec9-b5e2089e2375)
+
+
+Indices
+------------------------------------------------------------------------------------------------------------------
+Można za oszczedzić 30 bajtów:
+//Vertices
+Vertices: 9 vertices * 3 components(GLfloat) * sizeof(GLfloat) = 9 * 3 * 4 = 108 bajtów
+
+//Indices
+Vertices: 5 vertices * 3 components(GLfloat) * sizeof(GLfloat) = 5 * 3 * 4 = 60 bajtów
+Indices : 9 indices * sizeof(GLushort) = 9 * 2 = 18 bajtów
+
+108 - (60 +18) = 30
+
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/0d586a0b-27ac-4638-95c9-31fc3a061599)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/3e6e5000-eb64-44a6-bfda-6ca49a724607)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/f099ac73-5e8a-4db1-908a-86078b72bd3c)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/6dbb230f-12f7-45ea-ac22-003de715d942)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/92636d13-b549-4f48-94e7-435e7876c451)
+
+
+Colors
+------------------------------------------------------------------------------------------------------------------
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/266b624b-1063-4e75-9aa1-a32c3f0d54f5)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/f101b852-b6c3-4220-ae29-4973e0523ad4)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/178048c9-5148-4aaa-a4d9-ac833ef74287)

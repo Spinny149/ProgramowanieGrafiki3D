@@ -36,8 +36,19 @@ void SimpleShapeApplication::init() {
         0, 3, 4
     };
 
+    const std::vector colors = {
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
+    };
     // Generating the buffer and loading the vertex data into it.
-    GLuint v_buffer_handle, i_buffer_handle;
+    GLuint v_buffer_handle, i_buffer_handle, c_buffer_handle;
 
     glGenBuffers(1, &v_buffer_handle);
     OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle));
@@ -48,6 +59,11 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, i_buffer_handle));
     glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers(1, &c_buffer_handle);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, c_buffer_handle);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(colors.size()) * sizeof(GLfloat), colors.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // This setups a Vertex Array Object (VAO) that  encapsulates
     // the state of all vertex buffers needed for rendering
@@ -60,6 +76,10 @@ void SimpleShapeApplication::init() {
     glEnableVertexAttribArray(0);
     // and this specifies how the data is layout in the buffer.
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<GLvoid *>(0));
+
+    glBindBuffer(GL_ARRAY_BUFFER, c_buffer_handle);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);

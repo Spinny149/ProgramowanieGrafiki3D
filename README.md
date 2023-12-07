@@ -12,6 +12,7 @@ Uniforms
 Indices
 ------------------------------------------------------------------------------------------------------------------
 Można za oszczedzić 30 bajtów:
+
 //Vertices
 Vertices: 9 vertices * 3 components(GLfloat) * sizeof(GLfloat) = 9 * 3 * 4 = 108 bajtów
 

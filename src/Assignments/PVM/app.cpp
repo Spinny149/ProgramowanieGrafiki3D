@@ -12,7 +12,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 void SimpleShapeApplication::init() {
     // A utility function that reads the shader sources, compiles them and creates the program object
@@ -53,68 +52,77 @@ void SimpleShapeApplication::init() {
         0.0f, 1.0f, 0.0f
     };
 
-    // Create the PVM matrix and compute Model, View, and Projection matrices
-    glm::mat4 model = glm::mat4(1.0f); // Identity model matrix
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
-    glm::mat4 PVM = projection * view * model;
-
     // Generating the buffer and loading the vertex data into it.
-    GLuint v_buffer_handle, i_buffer_handle, c_buffer_handle, u_pvm_matrix_location;
-
-    glGenBuffers(1, &v_buffer_handle);
-    OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle));
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLuint i_buffer_handle,  u_fragment_buffer_handle, u_vertex_buffer_handle, v_buffer_handle;
 
     glGenBuffers(1, &i_buffer_handle);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    glGenBuffers(1, &c_buffer_handle);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, c_buffer_handle);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(colors.size()) * sizeof(GLfloat), colors.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    //--
-    // Create a uniform buffer object (UBO) for the PVM matrix
-    GLuint ubo_handle;
-    glGenBuffers(1, &ubo_handle);
-    glBindBuffer(GL_UNIFORM_BUFFER, ubo_handle);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), glm::value_ptr(PVM), GL_STATIC_DRAW);
+    //---------------------------------------------------------------------------------
+    // Creating and binding the buffer for modifying pixel color
+    glGenBuffers(1, &u_fragment_buffer_handle);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_fragment_buffer_handle);
+    glBufferData(GL_UNIFORM_BUFFER, 8 * sizeof(GLfloat), nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_fragment_buffer_handle);
 
-    // Get the location of the uniform in the shader
-    u_pvm_matrix_location = glGetUniformLocation(program, "PVM");
-    //--
-   
- 
+    glGenBuffers(1, &u_vertex_buffer_handle);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_vertex_buffer_handle);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, u_vertex_buffer_handle);
+    //---------------------------------------------------------------------------------
+    
+    glGenBuffers(1, &v_buffer_handle);
+    OGL_CALL(glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle));
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     // This setups a Vertex Array Object (VAO) that  encapsulates
     // the state of all vertex buffers needed for rendering
     glGenVertexArrays(1, &vao_);
-    glBindVertexArray(vao_);
-    glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle);
+    glBindVertexArray(vao_);        
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
+    glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle);
 
     // This indicates that the data for attribute 0 should be read from a vertex buffer.
-    glEnableVertexAttribArray(0);
     // and this specifies how the data is layout in the buffer.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 
-    glBindBuffer(GL_ARRAY_BUFFER, c_buffer_handle);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(1);
+    //glBindBuffer(GL_ARRAY_BUFFER, c_buffer_handle);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(0);
 
-    //--
-    // Bind the UBO to a binding point
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_handle);
+    //---------------------------------------------------------------------------------
+    {
+        float strength = 0.8f;
+        float color[3] = { 1.0f, 0.0f, 0.0f };
 
-    // Bind the uniform block to the binding point in the shader
-    GLuint block_index = glGetUniformBlockIndex(program, "PVM");
-    glUniformBlockBinding(program, block_index, 0);
-    //--
+        glBindBuffer(GL_UNIFORM_BUFFER, u_fragment_buffer_handle);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
+        glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(float), 3 * sizeof(float), color);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    {
+        const glm::mat4 model(1.0f);
+        constexpr auto fov = 45.0f;
+        const auto projection = glm::perspective(glm::radians(fov), static_cast<float>(kpWidth) / static_cast<float>(kpHeight), 0.1f, 100.0f);
+
+        const glm::vec3 camera_position = { 0.0f, 0.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
+        const glm::vec3 camera_target = { 0.0f, 0.0f, 0.0f };
+        const glm::vec3 camera_up = { 0.0f, 1.0f, 0.0f };
+
+        const auto view = lookAt(camera_position, camera_target, camera_up);
+        const auto pvm = projection * view * model;
+
+        glBindBuffer(GL_UNIFORM_BUFFER, u_vertex_buffer_handle);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), value_ptr(pvm));
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    }
+    //---------------------------------------------------------------------------------
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -129,8 +137,6 @@ void SimpleShapeApplication::init() {
     glViewport(0, 0, w, h);
 
     glUseProgram(program);
-
-    glUniformMatrix4fv(u_pvm_matrix_location, 1, GL_FALSE, glm::value_ptr(PVM));
 }
 
 //This functions is called every frame and does the actual rendering.

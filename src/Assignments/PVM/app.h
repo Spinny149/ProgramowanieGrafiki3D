@@ -14,7 +14,7 @@
 class SimpleShapeApplication : public xe::Application
 {
 public:
-    SimpleShapeApplication(int width, int height, std::string title, bool debug) : Application(width, height, title, debug) {}
+    SimpleShapeApplication(int width, int height, std::string title, bool debug) : Application(width, height, title, debug), kpWidth(width), kpHeight(height){}
 
     void init() override;
 
@@ -22,4 +22,6 @@ public:
 
 private:
     GLuint vao_;
+    int kpWidth;
+    int kpHeight;
 };

@@ -1,4 +1,13 @@
 # SUMMARY
+Pyramid
+------------------------------------------------------------------------------------------------------------------
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/ac28f78e-f195-4665-87ba-0d1dbc44bc8f)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/5fe85fcf-3062-443d-84f0-fd3f6b70f495)
+
+PVM
+------------------------------------------------------------------------------------------------------------------
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/5d6b989c-6790-477d-bcfd-cea749ccee2d)
+
 
 Uniforms
 ------------------------------------------------------------------------------------------------------------------

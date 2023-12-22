@@ -1,4 +1,4 @@
-//
+﻿//
 // Created by pbialas on 25.09.2020.
 //
 
@@ -31,33 +31,37 @@ void SimpleShapeApplication::init() {
             0.5f, 0.0f, 0.5f,
             0.5f, 0.0f, -0.5f,
             -0.5f, 0.0f, -0.5f,
+
             0.0f, 1.0f, 0.0f
     };
 
     std::vector<GLushort> indices = {
-        0, 1, 4,  // Triangle 1 (base)
-        1, 2, 4,  // Triangle 2 (base)
-        2, 3, 4,  // Triangle 3 (base)
-        3, 0, 4,  // Triangle 4 (base)
-        0, 1, 2,  // Triangle 5 (side)
-        0, 2, 3   // Triangle 6 (side)
+
+        0, 4, 1, // Triangle 1
+        1, 4, 2, // Triangle 2
+        2, 4, 3, // Triangle 3
+        3, 4, 0, // Triangle 4
+        0, 1, 2, // Base Triangle 1
+        2, 3, 0  // Base Triangle 2
     };
 
-    //const std::vector colors = {
-    //    // Colors for the base
-    //    1.0f, 0.0f, 0.0f,  // Vertex 0 (base) color (red)
-    //    0.0f, 1.0f, 0.0f,  // Vertex 1 (base) color (green)
-    //    0.0f, 0.0f, 1.0f,  // Vertex 2 (base) color (blue)
-    //    1.0f, 1.0f, 0.0f,  // Vertex 3 (base) color (yellow)
+    const std::vector colors = {
+        // colors for the base
+        1.0f, 0.0f, 0.0f,  // color (red)
+        0.0f, 1.0f, 0.0f,  // color (green)
+        0.0f, 0.0f, 1.0f,  // color (blue)
+        1.0f, 1.0f, 0.0f,  // color (yellow)
 
-    //    // Color for the apex
-    //    0.5f, 0.5f, 0.5f   // Vertex 4 (apex) color (gray)
-    //};
+        // color for the apex
+        0.5f, 0.5f, 0.5f,  //color (gray)     
+        0.5f, 0.5f, 0.5f   //color (gray)     
+
+    };
 
 
 
     // Generating the buffer and loading the vertex data into it.
-    GLuint i_buffer_handle,  u_fragment_buffer_handle, u_vertex_buffer_handle, v_buffer_handle;
+    GLuint i_buffer_handle,  u_fragment_buffer_handle, u_vertex_buffer_handle, v_buffer_handle, c_buffer_handle;
 
     glGenBuffers(1, &i_buffer_handle);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_buffer_handle);
@@ -84,6 +88,11 @@ void SimpleShapeApplication::init() {
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    glGenBuffers(1, &c_buffer_handle);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, c_buffer_handle);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(colors.size()) * sizeof(GLfloat), colors.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
     // This setups a Vertex Array Object (VAO) that  encapsulates
     // the state of all vertex buffers needed for rendering
     glGenVertexArrays(1, &vao_);
@@ -94,27 +103,22 @@ void SimpleShapeApplication::init() {
     // This indicates that the data for attribute 0 should be read from a vertex buffer.
     // and this specifies how the data is layout in the buffer.
 
-    //glBindBuffer(GL_ARRAY_BUFFER, c_buffer_handle);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, c_buffer_handle);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(1);
 
     //---------------------------------------------------------------------------------
     {
         float strength = 0.8f;
-        float color[15] = {
-            // Colors for the base
-            1.0f, 0.0f, 0.0f,  // Vertex 0 (base) color (red)
-            0.0f, 1.0f, 0.0f,  // Vertex 1 (base) color (green)
-            0.0f, 0.0f, 1.0f,  // Vertex 2 (base) color (blue)
-            1.0f, 1.0f, 0.0f,  // Vertex 3 (base) color (yellow)
-
-            // Color for the apex
-            0.5f, 0.5f, 0.5f   // Vertex 4 (apex) color (gray)
-        };
+        float color[3] = { 1.0f, 1.0f, 1.0f };
+            
 
         glBindBuffer(GL_UNIFORM_BUFFER, u_fragment_buffer_handle);
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &strength);
-        glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(float), 15 * sizeof(float), color);
+        glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(float), 3 * sizeof(float), color);
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
@@ -123,7 +127,13 @@ void SimpleShapeApplication::init() {
         constexpr auto fov = 45.0f;
         const auto projection = glm::perspective(glm::radians(fov), static_cast<float>(kpWidth) / static_cast<float>(kpHeight), 0.1f, 100.0f);
 
-        const glm::vec3 camera_position = { 2.0f, 2.0f, 2.0f }; // obr�t x, obr�t o y;odleglosc w Z
+        //const glm::vec3 camera_position = { -1.0f, -1.0f, 2.0f }; // bok 1 Y/B
+        //const glm::vec3 camera_position = { 2.0f, -2.0f, 2.0f }; // bok 1 Y/R
+        //const glm::vec3 camera_position = { -2.0f, -2.0f, -2.0f }; // bok 1 B/G
+        //const glm::vec3 camera_position = { 0.0f, 8.0f, 2.0f }; //góra
+        //const glm::vec3 camera_position = { 0.0f, -8.0f, 2.0f }; //dół
+        const glm::vec3 camera_position = { 2.0f, -2.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
+        //const glm::vec3 camera_position = { 0.0f, -5.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
         const glm::vec3 camera_target = { 0.0f, 0.5f, 0.0f };
         const glm::vec3 camera_up = { 0.0f, 1.0f, 0.0f };
 
@@ -161,7 +171,7 @@ void SimpleShapeApplication::frame() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    //glDrawArrays(GL_TRIANGLES, 0, 9);
-    glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_SHORT, nullptr);
+
     glBindVertexArray(0);
 }

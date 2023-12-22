@@ -33,7 +33,7 @@ void SimpleShapeApplication::init() {
     std::vector<GLushort> indices = {
         0, 1, 2, 
         0, 1, 3, 
-        0, 3, 4
+        0, 4, 3
     };
 
     const std::vector colors = {

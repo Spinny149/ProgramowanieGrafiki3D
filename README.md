@@ -1,8 +1,11 @@
 # SUMMARY
 Pyramid
 ------------------------------------------------------------------------------------------------------------------
-![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/ac28f78e-f195-4665-87ba-0d1dbc44bc8f)
-![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/5fe85fcf-3062-443d-84f0-fd3f6b70f495)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/fa130202-d43e-45f7-b978-1899cd43af90)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/27171306-aad2-4ae2-b610-1604bf47d671)
+![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/4232d3f1-4d64-4df0-80d5-8adcf42f1f22)
+
+
 
 PVM
 ------------------------------------------------------------------------------------------------------------------

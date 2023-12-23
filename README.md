@@ -1,10 +1,14 @@
 # SUMMARY
+Resizing
+------------------------------------------------------------------------------------------------------------------
+https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/9ebb29de-4510-4106-91c0-5ddda8e90930
+
+
 Pyramid
 ------------------------------------------------------------------------------------------------------------------
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/fa130202-d43e-45f7-b978-1899cd43af90)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/27171306-aad2-4ae2-b610-1604bf47d671)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/4232d3f1-4d64-4df0-80d5-8adcf42f1f22)
-
 
 
 PVM
@@ -49,7 +53,6 @@ Colors
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/10d987d0-3bf6-4445-94c0-70e6dedc2993)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/ea07f8b8-c2bf-4ffe-a996-802a6da04911)
 ![image](https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/2429ea15-0f6a-4b3f-84b4-d73979d5c6b7)
-
 
 
 # A 3D graphics programming project.

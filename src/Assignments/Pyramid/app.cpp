@@ -27,33 +27,60 @@ void SimpleShapeApplication::init() {
 
     // A vector containing the x,y,z vertex coordinates for the triangle.
     std::vector<GLfloat> vertices = {
-            -0.5f, 0.0f, 0.5f,
-            0.5f, 0.0f, 0.5f,
-            0.5f, 0.0f, -0.5f,
-            -0.5f, 0.0f, -0.5f,
+            -0.5f, 0.0f, -0.5f,  //0
+            -0.5f, 0.0f, 0.5f,   //1
+            0.5f, 0.0f, -0.5f,   //2
+            0.5f, 0.0f, 0.5f,    //3
 
-            0.0f, 1.0f, 0.0f
+            -0.5f, 0.0f, -0.5f,   //4
+            0.0f, 1.0f, 0.0f,     //5
+            0.5f, 0.0f, -0.5f,    //6
+
+            0.5f, 0.f, -0.5f,     //7
+            0.f, 1.f, 0.f,        //8
+            0.5f, 0.f, 0.5f,      //9
+
+            -0.5f, 0.f, 0.5f,    //10
+            0.f, 1.f, 0.f,       //11
+            0.5f, 0.f, 0.5f,     //12
+
+            -0.5f, 0.f, 0.5f,     //13
+            0.f, 1.f, 0.f,        //14
+            -0.5f, 0.f, -0.5f,    //15
     };
 
     std::vector<GLushort> indices = {
 
-        0, 4, 1, // Triangle 1
-        1, 4, 2, // Triangle 2
-        2, 4, 3, // Triangle 3
-        3, 4, 0, // Triangle 4
-        0, 1, 2, // Base Triangle 1
-        2, 3, 0  // Base Triangle 2
+            0, 2, 1,
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+            11, 10, 12,
+            13, 14, 15,
     };
 
     const std::vector colors = {
         // colors for the base
         1.0f, 0.0f, 0.0f,  // color (red)
+        1.0f, 0.0f, 0.0f,  // color (red)
+        1.0f, 0.0f, 0.0f,  // color (red)
+        1.0f, 0.0f, 0.0f,  // color (red)
+
         0.0f, 1.0f, 0.0f,  // color (green)
+        0.0f, 1.0f, 0.0f,  // color (green)
+        0.0f, 1.0f, 0.0f,  // color (green)
+
         0.0f, 0.0f, 1.0f,  // color (blue)
+        0.0f, 0.0f, 1.0f,  // color (blue)
+        0.0f, 0.0f, 1.0f,  // color (blue)
+
+        1.0f, 1.0f, 0.0f,  // color (yellow)
+        1.0f, 1.0f, 0.0f,  // color (yellow)
         1.0f, 1.0f, 0.0f,  // color (yellow)
 
         // color for the apex
         0.5f, 0.5f, 0.5f,  //color (gray)     
+        0.5f, 0.5f, 0.5f,   //color (gray)     
         0.5f, 0.5f, 0.5f   //color (gray)     
 
     };
@@ -131,9 +158,8 @@ void SimpleShapeApplication::init() {
         //const glm::vec3 camera_position = { 2.0f, -2.0f, 2.0f }; // bok 1 Y/R
         //const glm::vec3 camera_position = { -2.0f, -2.0f, -2.0f }; // bok 1 B/G
         //const glm::vec3 camera_position = { 0.0f, 8.0f, 2.0f }; //góra
-        //const glm::vec3 camera_position = { 0.0f, -8.0f, 2.0f }; //dół
-        const glm::vec3 camera_position = { 2.0f, -2.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
-        //const glm::vec3 camera_position = { 0.0f, -5.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
+        const glm::vec3 camera_position = { 0.0f, -8.0f, 2.0f }; //dół
+        //const glm::vec3 camera_position = { 2.0f, -2.0f, 2.0f }; // obrót x, obrót o y;odleglosc w Z
         const glm::vec3 camera_target = { 0.0f, 0.5f, 0.0f };
         const glm::vec3 camera_up = { 0.0f, 1.0f, 0.0f };
 

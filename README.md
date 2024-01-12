@@ -1,4 +1,9 @@
 # SUMMARY
+Textures
+------------------------------------------------------------------------------------------------------------------
+https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/2272d6c0-648e-4179-95ec-2a9516703df5
+
+
 Camera Movement
 ------------------------------------------------------------------------------------------------------------------
 https://github.com/Spinny149/ProgramowanieGrafiki3D/assets/91791583/158de289-fcd2-484d-b9ab-c5c6e3ab900c

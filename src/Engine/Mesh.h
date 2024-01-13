@@ -6,8 +6,8 @@
 
 #include <vector>
 #include "glad/gl.h"
-#include "Material.h"
 
+#include "Engine/Material.h"
 
 namespace xe {
 
@@ -34,12 +34,15 @@ namespace xe {
 
         void vertex_attrib_pointer(GLuint index, GLuint size, GLenum type, GLsizei stride, GLsizei offset);
 
-        void add_submesh(GLuint start, GLuint end, Material* mat) {
-            submeshes_.push_back({ start, end });
-            materials_.push_back(mat);
+        void add_submesh(GLuint p_start, GLuint p_end, Material* p_material)
+        {
+            submeshes_.emplace_back(p_start, p_end);
+            materials.emplace_back(p_material);
         }
 
-        void add_submesh(GLuint start, GLuint end) { add_submesh(start, end, nullptr); }
+        void add_submesh(GLuint start, GLuint end) {
+            add_submesh(start, end, nullptr);
+        }
 
         void draw() const;
 
@@ -50,7 +53,7 @@ namespace xe {
         GLuint i_buffer_;
 
         std::vector<SubMesh> submeshes_;
-        std::vector<Material*> materials_;
+        std::vector<Material*> materials;
     };
 
 }
